@@ -1,6 +1,6 @@
 # @tanuden/biome-config
 
-**English** | [日本語](./README.ja.md)
+**English** | [日本語](https://github.com/tanuden/biome-config/blob/main/README.ja.md)
 
 Biome linter preset for Tanuden typescript projects.
 
