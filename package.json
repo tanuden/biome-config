@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Biome config preset for Tanukigawa Railway Typescript projects.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanuden/biome-config.git"
+  },
   "author": {
     "name": "Haruyuki Tanukiji",
     "email": "haruyuki@tanu.ch"
