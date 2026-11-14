@@ -4,11 +4,15 @@
 
 TanudenのTypeScriptプロジェクト向けBiomeリンタープリセットです。
 
-対象:
+## プロファイル
 
-- Electronアプリ
-- Nodeサービス
-- ライブラリ
+| プロファイル | 継承元   | 用途                                                       |
+| ------------ | -------- | ---------------------------------------------------------- |
+| `base`       | なし     | 最も厳格な共通規約。すべてのプロジェクトの基盤             |
+| `node`       | `base`   | Nodeサービス。`.js`インポート拡張子（NodeNext）を追加      |
+| `lib`        | `base`   | ライブラリ。`.js`インポート拡張子（NodeNext）を追加       |
+| `react`      | `base`   | Reactレンダラー。reactドメイン、kebab + PascalCase命名     |
+| `electron`   | `node`   | Electronアプリ。メインプロセスでの `process.env` を許可   |
 
 ## スタイル規約
 
@@ -22,7 +26,8 @@ TanudenのTypeScriptプロジェクト向けBiomeリンタープリセットで�
 | セミコロン               | 常に           |
 | クォート（JSとJSX）      | ダブルクォート |
 | プロパティ名のクォート   | 必要な場合のみ |
-| 末尾のカンマ（JS、JSON） | なし           |
+| 末尾のカンマ（JS）       | すべて         |
+| 末尾のカンマ（JSON）     | なし           |
 | アロー関数の丸括弧       | 常に           |
 | ブラケット内のスペース   | オン           |
 | ブラケットを同一行に配置 | オフ           |
@@ -30,14 +35,34 @@ TanudenのTypeScriptプロジェクト向けBiomeリンタープリセットで�
 
 ### リンター
 
-| ルール                      | レベル | 備考                                    |
-| --------------------------- | ------ | --------------------------------------- |
-| `useImportType`             | error  |                                         |
-| `useFilenamingConvention`   | error  | kebab-caseまたはPascalCaseのファイル名  |
-| `useExhaustiveDependencies` | warn   |                                         |
-| `noBarrelFile`              | warn   |                                         |
-| `noFloatingPromises`        | warn   |                                         |
-| `noArrayIndexKey`           | off    | `recommended`プリセットへの意図的な例外 |
+`base` はBiomeの `recommended` プリセットに以下を重ねます:
+
+| ルール                      | レベル | 備考                                          |
+| --------------------------- | ------ | --------------------------------------------- |
+| `useImportType`             | error  |                                               |
+| `useExportType`             | error  |                                               |
+| `useFilenamingConvention`   | error  | `base`はkebab-case、`react`はPascalCaseも許可 |
+| `noProcessEnv`              | error  | `electron`ではオフ                            |
+| `noNonNullAssertion`        | error  |                                               |
+| `useShorthandFunctionType`  | error  |                                               |
+| `noShadow`                  | error  |                                               |
+| `noArrayIndexKey`           | error  |                                               |
+| `noFloatingPromises`        | error  | nursery                                       |
+| `noMisusedPromises`         | error  | nursery                                       |
+| `useAwaitThenable`          | error  | nursery                                       |
+| `noPromiseExecutorReturn`   | error  | nursery                                       |
+| `usePromiseRejectErrors`    | error  | nursery                                       |
+| `noReturnInFinally`         | error  | nursery                                       |
+| `useExplicitReturnType`     | error  | nursery、自動修正なし                         |
+| `useExplicitType`           | error  | nursery、自動修正なし                         |
+| `useExhaustiveDependencies` | warn   |                                               |
+| `noBarrelFile`              | warn   |                                               |
+| `noConsole`                 | warn   | 警告で `biome check` が失敗することはない     |
+| `useImportExtensions`       | error  | `node`と`lib`のみ（`.js`拡張子）              |
+
+`react` はさらにreactルールドメイン（`recommended`）に加え、`noLeakedRender`、`noNestedComponentDefinitions`、`useReactNamingConvention`、`noReactObjectTypeAsDefaultProp`、`useSelfClosingElements`、`useUniqueElementIds` をerrorで、`noReactForwardRef`、`useComponentExportOnlyModules`、`useImageSize`、`useControlLabel` をwarnで有効化し、`noImgElement`、`noJsxLiterals`、`noInlineStyles`、`useReactFunctionComponentDefinition` を明示的にオフにします。
+
+一部のルールはnurseryルールです。`@biomejs/biome` は正確にピン留めしてください（2.6.3で検証済み）。Biomeのアップグレードは意図的なレビュー済みの変更であって、日常のメンテナンスではありません。`--error-on-warnings` を渡さないでください。`noConsole` は意図的にwarnです。
 
 ## 使用方法
 
@@ -47,17 +72,36 @@ TanudenのTypeScriptプロジェクト向けBiomeリンタープリセットで�
 npm install --save-dev @tanuden/biome-config @biomejs/biome@2.6.3
 ```
 
-`@biomejs/biome` 2.6.xが必要です（2.6.3で検証済み）。
+### ルートの `biome.json`
 
-### `biome.json` への追加
-
-biomeの `recommended` プリセットをベースとして使用してください。
-Reactプロジェクトでは、必要に応じて `react` ドメインを使用してください。
+プロジェクトの種類に合わせたプロファイルを継承してください:
 
 ```json
 {
   "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
-  "extends": ["@tanuden/biome-config/biome"]
+  "extends": ["@tanuden/biome-config/electron"]
+}
+```
+
+### サブツリー用のネスト設定（モノレポ）
+
+`"root": false` を持つネストされた `biome.json` は、そのサブツリーにおいてルート設定を置き換えます（`"//"` を継承しない限り）。したがって、サブツリー固有の除外や緩和はネストされたファイルに記述します。ネストされた設定はルートからの実行（`biome check .`）で自動的に検出されます。
+
+```json
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
+  "root": false,
+  "extends": ["@tanuden/biome-config/react"],
+  "files": {
+    "includes": ["**", "!locales", "!src/assets"]
+  },
+  "linter": {
+    "rules": {
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      }
+    }
+  }
 }
 ```
 
