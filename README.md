@@ -1,5 +1,7 @@
 # @tanuden/biome-config
 
+**English** | [日本語](./README.ja.md)
+
 Biome linter preset for Tanuden typescript projects.
 
 For use on:
@@ -34,7 +36,7 @@ For use on:
 | `useFilenamingConvention`   | error | kebab-case or PascalCase filenames    |
 | `useExhaustiveDependencies` | warn  |                                       |
 | `noBarrelFile`              | warn  |                                       |
-| `noFloatingPromises`        | warn  | nursery rule                          |
+| `noFloatingPromises`        | warn  |                                       |
 | `noArrayIndexKey`           | off   | deliberate exception to `recommended` |
 
 ## Usage
@@ -50,7 +52,7 @@ Requires `@biomejs/biome` 2.6.x (verified on 2.6.3).
 ### Adding to `biome.json`
 
 The biome `recommended` preset should be used as the base.
-Use the `react` domain for React projects where necessary. 
+Use the `react` domain for React projects where necessary.
 
 ```json
 {
