@@ -27,23 +27,33 @@
       },
       "style": {
         "useImportType": "error",
+        "useExportType": "error",
         "useFilenamingConvention": {
           "level": "error",
           "options": {
-            "filenameCases": ["kebab-case", "PascalCase"],
+            "filenameCases": ["kebab-case"],
             "strictCase": false
           }
-        }
+        },
+        "useShorthandFunctionType": "error",
+        "noNonNullAssertion": "error",
+        "noProcessEnv": "error"
       },
       "suspicious": {
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "error",
+        "noShadow": "error",
+        "noConsole": "warn"
       },
       "nursery": {
-        "noFloatingPromises": "warn"
+        "noFloatingPromises": "error",
+        "noMisusedPromises": "error",
+        "useAwaitThenable": "error",
+        "noPromiseExecutorReturn": "error",
+        "usePromiseRejectErrors": "error",
+        "noReturnInFinally": "error",
+        "useExplicitReturnType": "error",
+        "useExplicitType": "error"
       }
-    },
-    "domains": {
-      "react": "recommended"
     }
   },
   "assist": {
@@ -58,7 +68,7 @@
       "quoteStyle": "double",
       "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
-      "trailingCommas": "none",
+      "trailingCommas": "all",
       "semicolons": "always",
       "arrowParentheses": "always",
       "bracketSpacing": true,

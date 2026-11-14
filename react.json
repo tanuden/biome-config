@@ -1,0 +1,42 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
+  "extends": ["@tanuden/biome-config/base"],
+  "linter": {
+    "domains": {
+      "react": "recommended"
+    },
+    "rules": {
+      "correctness": {
+        "noNestedComponentDefinitions": "error",
+        "useUniqueElementIds": "error",
+        "useImageSize": "warn"
+      },
+      "performance": {
+        "noImgElement": "off"
+      },
+      "style": {
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["kebab-case", "PascalCase"],
+            "strictCase": false
+          }
+        },
+        "useSelfClosingElements": "error",
+        "useComponentExportOnlyModules": "warn",
+        "noJsxLiterals": "off",
+        "noInlineStyles": "off"
+      },
+      "suspicious": {
+        "noLeakedRender": "error",
+        "noReactForwardRef": "warn"
+      },
+      "nursery": {
+        "useReactNamingConvention": "error",
+        "noReactObjectTypeAsDefaultProp": "error",
+        "useControlLabel": "warn",
+        "useReactFunctionComponentDefinition": "off"
+      }
+    }
+  }
+}

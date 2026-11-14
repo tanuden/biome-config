@@ -1,6 +1,6 @@
 {
   "name": "@tanuden/biome-config",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Biome config preset for Tanukigawa Railway Typescript projects.",
   "license": "MIT",
   "keywords": [
@@ -17,10 +17,18 @@
     "email": "haruyuki@tanu.ch"
   },
   "files": [
-    "biome.json"
+    "base.json",
+    "node.json",
+    "lib.json",
+    "react.json",
+    "electron.json"
   ],
   "exports": {
-    "./biome": "./biome.json"
+    "./base": "./base.json",
+    "./node": "./node.json",
+    "./lib": "./lib.json",
+    "./react": "./react.json",
+    "./electron": "./electron.json"
   },
   "publishConfig": {
     "access": "public"
