@@ -1,0 +1,19 @@
+{
+  "name": "@tanuden/biome-config",
+  "version": "1.0.0",
+  "description": "Biome config preset for Tanukigawa Railway Typescript projects.",
+  "license": "MIT",
+  "author": {
+    "name": "Haruyuki Tanukiji",
+    "email": "haruyuki@tanu.ch"
+  },
+  "files": [
+    "biome.json"
+  ],
+  "exports": {
+    "./biome": "./biome.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
